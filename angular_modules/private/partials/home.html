@@ -1,0 +1,99 @@
+<div class="home-container row">
+	<div class="col-md-3">
+		<div class="panel-box welcome-panel">
+			<!-- <div class="arrow-up"></div> -->
+			<div class="pull-left col-md-3">
+				<div class="pull-left profilepic-panel">
+					<img id="profilePic" class="profile-pic" ng-src="{{profilePicPath}}" ng-mouseover="profilePicHover()" ng-mouseleave="profilePicOut()"/>
+					<!--<input type="file" id="profilePicUpload" multiple accept='image/*' name="coverimage" style="display:none">-->
+					<form id="profilePicUploadForm" method="post" enctype="multipart/form-data" action="/profile-pic-upload" style="display:none">
+					    <input type="file" name="thumbnail" id="profilePicUpload" accept='image/*'>
+					    <input type="submit">
+					</form>
+					<i class="fa fa-cloud-upload" ng-show="uploadProfilePic" ng-click="openFileOption();" title="Change Profile Pic"></i>
+					<i class="fa fa-camera" ng-show="uploadProfilePic" title="Take Picture" ng-controller="TakeProfilePicController" ng-click="takeProfilePic($event)"></i>
+				</div>
+			</div>
+			<div class="msg-div pull-left col-md-9 text-right">
+				<h5 class="welcome-message bold-fonts white-fonts med-left-padding">{{fullname}}</h5>
+				<!-- <h6 class="welcome-message bold-fonts white-fonts med-left-padding">{{email}}</h6> -->
+			</div>
+			<div class="col-md-12" id="progressBarDiv" style="display: none;">
+				<div class="progress progress-striped active">
+					<div style="width: 0%" class="bar" id="profilePicProgressBar"></div>
+				</div>
+			</div>
+			<div ng-include="'partials/snippets/accordion/leftmenu.html'">
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6" ng-controller="ModuleController">
+		<!-- <span ng-switch on="moduleName"> -->
+			<!-- <div ng-include="'partials/modules/feed.html'"></div> -->
+			<div ng-if="currentModule === 'feed'">
+                <feed-module/>
+            </div>
+			<div ng-if="currentModule === 'friends'">
+                <friends-module/>
+            </div>
+			<div ng-if="currentModule === 'profile'">
+                <profile-module/>
+            </div>
+			<div ng-if="currentModule === 'photos'">
+                <photos-module/>
+            </div>
+			
+<!-- 			<div ng-switch-when="friends">
+				<div  ng-include="'partials/modules/friends.html'"></div>
+			</div>
+		   <div ng-switch-when="relatedAudio"><div ng-include="'partials/snippets/media/items/image_element.html'"></div></div> -->
+		<!-- </span> -->
+<!-- 				<div class="panel-box main-feed " ng-controller="FeedController">
+			<div id="postFeedPanel">
+				<post-status-input/>
+			</div>
+			<div class="posted-feed-list-panel content mCustomScrollbar" ng-repeat="info in feedList | reverse">
+				<posted-feed-items/>
+			</div>
+		</div> -->
+	</div>
+		<div class="col-md-3">
+		<!-- <div class="panel-box adds-feed"></div> -->
+		<div class="panel-box friends-suggestion-panel" ng-controller="FriendsSuggestionController">
+			<label class="white-fonts header">Friends Suggestion</label>
+			<div class="friends-suggestion-scroller">
+				<div ng-repeat="info in randomFriendDetails">
+					<friends-suggestion/>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row" ng-controller="ChatController">
+<div class="col-md-9">
+	<div class="chat-window-list-container pull-right">
+		<div ng-repeat="info in chatWindowList" class="chat-window pull-right">
+			<chat-window/>
+		</div>
+	</div>
+</div>
+<div class="col-md-3">
+		<div class="chat-buddy-list" id="chatBuddyList">
+			<div class="chat-buddy-list-container">
+				<div ng-repeat="info in chatBuddyList | filter : chatBuddy">
+					<chat-buddy></chat-buddy>
+				</div>
+				<div class="chat-info-search">
+					<input ng-model="chatBuddy" class="chat-search-input" type="text" placeholder="Search Buddy" name="q" autocomplete="off" spellcheck="false">
+					<i class="fa fa-search chat-search-icon"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="openModal" class="modalDialog">
+    <div>
+		<a href="javascript:void(0)" onclick="hideModal();" title="Close" class="close">X</a>
+		<div ng-include="'partials/snippets/resources/dialog.html'"></div>
+    </div>
+</div>

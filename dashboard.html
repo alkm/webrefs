@@ -1,0 +1,66 @@
+<html>
+  <head><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\:form{display:block;}</style>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Normal Dashboard without AMD</title>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <style type="text/css">
+
+	@media (min-width: 768px) {
+		.navbar-center {
+			margin-left: 5%;
+		}
+	}
+  </style>
+<script type="text/javascript"  src="js/../../bower_components/requirejs/require.js"></script>
+<script type="text/javascript"  src="js/../../bower_components/jquery/jquery-2.0.2.min.js"></script>
+<script type="text/javascript"  src="js/../../bower_components/bootstrapjs/bootstrap.min.js"></script>
+<script type="text/javascript"  src="js/../../bower_components/angular/angular.js"></script>
+<script type="text/javascript"  src="js/../../bower_components/highcharts/highcharts.js"></script>
+<script type="text/javascript"  src="js/../../bower_components/highcharts-ng/highcharts-ng.js"></script>
+<script type="text/javascript" src="js/common/controllers/navbarcontroller.js"></script>
+<script type="text/javascript"  src="js/dashboardmaincontroller.js"></script>
+</head>
+<body ng-app="mydemoApp">
+  <nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header app-nav-header">
+       <img src="images/logo.png">
+       <!-- <img src="images/SymcAppCenter_title.png" style="height:30%; width:30%"> -->
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse ng-scope" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-center">
+
+            <li ng-class="{active: isActive('/dashboards')}" class="active"><a href="#/dashboards">Dashboards</a></li>
+            <li ng-class="{active: isActive('/apps/list')}"><a href="#/transition/apps">Apps</a></li>
+			<li ng-class="{active: isActive('/devices/list')}"><a href="#/devices/list">Devices</a></li>
+			<li ng-class="{active: isActive('/policies/list')}"><a href="#/policies/list">Policies</a></li>
+			<li ng-class="{active: isActive('/users')}"><a href="#/users/list">Users</a></li>
+			<li ng-class="{active: isActive('/reports')}" )=""><a href="#/reports">Reports</a></li>
+			<li ng-class="{active: isActive('/settings')}" )=""><a href="#/settings">Settings</a></li>
+
+        </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+</nav>
+
+  <div class="main-content">
+  <div id="dashboard-main" ng-controller="DashboardMainController">
+	<h3 class="col-md-10">{{title}}</h3>
+	<div class="dashboard-panel">
+		<highchart id="appOSpieChart" config="appOSpieChart" style="height: 250px;"></highchart>
+	</div>
+	<div class="dashboard-panel">
+		<highchart id="barChartoptions" config="barChartoptions" style="width:98%;height: 250px;"></highchart>
+	</div>
+	<div class="dashboard-panel">
+           <highchart id="MDPA" config="MDPA" style="width:98%;height: 250px;"></highchart>
+	</div>
+	<div class="dashboard-panel">
+           <highchart id="MAU" config="MAU" style="width:98%;height: 250px;"></highchart>
+	</div>
+</div>
+  </div>
+</body></html>

@@ -1,0 +1,48 @@
+<div class="user-form-panel">
+    <div class="signin-form panel" id="signInPanel">
+        <div ng-controller="SignInController">
+            <form>
+                <div class="row">
+                    <div><input type="text" class="form-control text-input text-center" value="alok.mohanty@socialutility.com" name="username" placeholder="username" ng-model="signInInfo.username"> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <input type="password" class="form-control text-input text-center" value="theone" placeholder="Password" name="password" ng-model="signInInfo.password"/>
+                    </div>
+                </div>
+                <div class="row signup-submit btn-div-container">
+					<div class="pull-left btn-div" ng-click="signIn()">
+						<input type="submit" class="btn btn-primary" name="submit" value="Sign In"><i class="fa fa-sign-in"></i>
+					</div>
+					<div class="pull-left btn-div" ng-click="register()">
+						<input type="submit" class="btn btn-primary" name="submit" value="Sign Up"><i class="fa fa-openid"></i></i>
+					</div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="user-form panel" id="signUpPanel" style="display: none;">
+        <div ng-controller="SignUpController">
+            <form>
+                <div class="row">
+                    <div><input type="text" class="form-control text-input text-center" name="fullName" placeholder="Your Full Name" ng-model="userInfo.fullName"> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div><input type="text" class="form-control text-input text-center" placeholder="username" name="username" ng-model="userInfo.username"> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <input type="password" class="form-control text-input text-center" placeholder="Password" name="password" ng-model="userInfo.password"/>
+                    </div>
+                </div>
+                <div class="row signup-submit row btn-div-container">
+                    <div class="pull-left btn-div" ng-click="backToSignIn()"><i class="fa fa-fast-backward"></i><input type="submit" class="btn btn-primary" name="submit" value="Back"/></div>
+                    <div class="pull-left btn-div" ng-click="signUp()"><input type="submit" class="btn btn-primary" name="submit" value="Sign Up"><i class="fa fa-openid"></i></input></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
