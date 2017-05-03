@@ -20,6 +20,7 @@ app.use(clientSessions({
 // configuration ===============================================================
 //mongoose.connect(database.url); 	// connect to mongoDB database on modulus.io
 mongoose.connect(database.url, function(err){
+	mongoose.Promise = global.Promise;
 	if(err){
 		console.log(err);
 	} else{
@@ -43,10 +44,10 @@ app.use(serveStatic(__dirname + '/'))
 	require('./js/datamodel/userinfohandler.js')(app);
 	require('./js/datamodel/mediauploader.js')(app);
 // require('./model/GeneralDataSet.js')(app);
-// require('./model/ProfileDataSet.js')(app);
-// require('./model/FriendsInfo.js')(app);
+    require('./js/datamodel/profilehandler.js')(app);
+	require('./js/datamodel/friendshandler.js')(app);
 	require('./js/datamodel/searchhandler.js')(app);
-// require('./model/ChatHandler.js')(app);
+    require('./js/datamodel/chathandler.js')(app);
 // require('./model/FeedHandler.js')(app);
 // require('./model/AlbumHandler.js')(app);
   io.sockets.on('connection', function(socket){//Similar to document.ready when the socket initialized

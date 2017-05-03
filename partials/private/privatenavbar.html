@@ -1,10 +1,18 @@
 <div class="container">
 	<div class="navbar-header app-nav-header colw100">
-		<div class="app-logo pull-left col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding"></div>
+		<!--<div class="app-logo pull-left col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding"></div>-->
+		<div class="pull-left app-title col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding">Expereince Web RTC</div>
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 			<div class="menu-section">
 				<i class="fa fa-home hand-cursor" aria-hidden="true"></i>
-				<i class="fa fa-bell hand-cursor" aria-hidden="true"></i>
+				<i class="fa fa-bell hand-cursor" aria-hidden="true" ng-controller="NotificationController" ng-click="getAllFriendReqDetails($event);">
+					<div class="notification-count" ng-show="isNotificationShow">{{notificationCount}}</div>
+					<div class="friend-req-list-container" ng-show="isFriendRequestPanelShow">
+						<div ng-repeat="info in requestInfoArr">
+							<friendreq-details></friendreq-details>
+						</div>
+					</div>
+				</i>
 				<i class="fa fa-envelope hand-cursor" aria-hidden="true"></i>
 			</div>
 		</div>

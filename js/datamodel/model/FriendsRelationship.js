@@ -5,6 +5,7 @@ module.exports = mongoose.model('friendsrelationship', {
 	friendid : String,
 	requeststatus : String,
 	requester : String,
+	requester : Object,
 	blockedby : String,
 	blockedto : String,
 	unfriendby : String,

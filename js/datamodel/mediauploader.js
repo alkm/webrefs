@@ -8,6 +8,7 @@ module.exports = function(app) {
 		profilePicObj.previewPicDimension = req.body.profilepicinfo.previewPicDimension;
 		profilePicObj.profilePicDimension = req.body.profilepicinfo.profilePicDimension;
 		profilePicObj.imageBuffer = req.body.profilepicinfo.profilePicEncoded;
+		console.log('.....???????.....'+profileId);
 		userInfo.update({_id: profileId}, {$set: {profilepic: profilePicObj}}, function(error, info){
 			if(error){
 				console.log("Error"+error);

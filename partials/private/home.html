@@ -7,7 +7,7 @@
 			<a ng-click="updateProfilePic();">
 				<!-- <div class="profile-pic" ng-style="{'background':'transparent url(' + profilePic + ')'}"/> -->
 				<div class="profile-pic-content">
-					<img class="profile-pic" ng-src="{{profilePic.imageBuffer}}" ng-style="{'width' : profilePicWidth+'px', 'height' : profilePicHeight+'px'}"/>
+					<img class="profile-pic" ng-src="{{profilePic}}" ng-style="{'width' : profilePicWidth+'px', 'height' : profilePicHeight+'px'}"/>
 				</div>
 			</a>
 			<div class="profile-name">
@@ -34,9 +34,27 @@
 			</ul>
 		</div>
 	</div>
-	<div class="notidication-area col-lg-3 col-md-3 col-sm-3 col-xs-3">
+	<!--<div class="notification-area col-lg-3 col-md-3 col-sm-3 col-xs-3">
 	
-	</div>
+	</div>-->
 	<div ng-controller="ChatController">
+		<div class="chat-window-list-container pull-right">
+			<div ng-repeat="info in chatWindowList" class="chat-window pull-right">
+				<chat-window/>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 chat-area">
+			<div class="chat-buddy-list" id="chatBuddyList">
+				<div class="chat-buddy-list-container">
+					<div ng-repeat="info in chatBuddyList | filter : chatBuddy">
+						<chat-buddy></chat-buddy>
+					</div>
+					<div class="chat-info-search">
+						<i class="fa fa-search chat-search-icon"></i>
+						<input ng-model="chatBuddy" class="chat-search-input" type="text" placeholder="Search Buddy" name="q" autocomplete="off" spellcheck="false">
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

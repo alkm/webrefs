@@ -1,7 +1,7 @@
 var signInInfo = require('./model/signininfo');
 var userInfo = require('./model/userinfo');
+var fs = require('fs');
 module.exports = function(app) {
-
 	// api ---------------------------------------------------------------------
 	app.post('/api/fbInfo', function(req, res) {
 		signInInfo.findOne({username: req.body.fbinfo.email}, function(err, users){
@@ -67,10 +67,14 @@ module.exports = function(app) {
 						if (err){
 							res.send(err);
 						}else{
-							userInfo.create({
+							var profilePicObj = {};
+							profilePicObj.previewPicDimension = '100x100';
+							profilePicObj.profilePicDimension = '75x75';
+							profilePicObj.imageBuffer = 'assets/images/defaultprofilepic.jpg';
+						    userInfo.create({
 								username : req.body.signupinfo.email,
 								fullname : req.body.signupinfo.fullName,
-								profilepic : "",
+								profilepic : profilePicObj,
 								wallpicpath : "",
 								wallpicpos : "",
 								appearance : "offline",

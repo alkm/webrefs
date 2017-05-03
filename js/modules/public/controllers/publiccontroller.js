@@ -68,9 +68,11 @@ define(['app', 'common/services/userinfoservice'], function (app) {
 						}
 						
 						obj.id = data.info._id;
-						$rootScope.generalDataSet = obj;
+						obj.userid = data.info.username;
+						//$rootScope.generalDataSet = obj;
+						$rootScope.generalDataSet = data.info;
 						localStorage.setItem("generalDataSet", JSON.stringify($rootScope.generalDataSet));
-						$rootScope.$emit('ON_LOGIN_SUCCESS', { obj: "" });
+						$rootScope.$emit('ON_LOGIN_SUCCESS', { obj: obj});
 					}
 					else{
 						alert(data.message);
@@ -217,6 +219,7 @@ define(['app', 'common/services/userinfoservice'], function (app) {
 								obj.name = data.info.fullname;
 								obj.profilePic = data.info.profilepic;
 								obj.id =  data.info._id;
+								obj.userid = data.info.username;
 								$rootScope.generalDataSet = obj;
 								localStorage.setItem("generalDataSet", JSON.stringify($rootScope.generalDataSet));
 								$rootScope.$emit('ON_LOGIN_SUCCESS', { obj: response });
