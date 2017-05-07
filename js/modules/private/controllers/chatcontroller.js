@@ -48,9 +48,9 @@ define(['app','ngload!chat-directive', 'ngload!chat-service'], function (app) {
 			var obj = {};
 			//require(['socket-io'], function(io) {
 				obj._id = $scope.userId;
-				//socket = io('http://localhost:3000/');
-				socket = io('https://de8a3aa6.ngrok.io/');
-				//socket = io('http://10.20.17.60:3000/');
+				socket = io('http://localhost:3000/');
+				//socket = io('https://de8a3aa6.ngrok.io/');
+				//socket = io('http://192.168.17.208:3000/');
 				socket.emit('ON_SOCKET_INIT', obj);
 				socket.on("UPDATE_CHAT_LIST", function(data){
 					//alert('update chat list');
