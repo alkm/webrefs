@@ -1,10 +1,10 @@
 define(['app'],function(App)
 {
-    App.register.directive("searchResult",function($document,$window)
+    App.register.directive("searchResult",function($document,$window, $rootScope)
     {
 		return {
 			restrict: 'E',
-			template: '<div class="search-list inline-block" data= "{{info.username | fltUN}}" id="{{info.username}}"><div class="pic-icon pull-left"><img class="min-profile-pic" ng-src="{{info.profilepic.imageBuffer}}"/></div><div class="pull-left profile-name" title={{info.fullname}}><span>{{info.fullname| limitTo : nameLimit}}</span></div></div>',
+			template: '<div class="search-list inline-block" data= "{{info._id | fltUN}}" id="{{info._id}}"><div class="pic-icon pull-left"><img class="min-profile-pic" ng-src="{{info.profilepic.imageBuffer}}"/></div><div class="pull-left profile-name" title={{info.fullname}}><span>{{info.fullname| limitTo : nameLimit}}</span></div></div>',
 			link: function(scope, element, attr){
 				scope.nameLimit = 20;
 				element.on("click" , function(event){
@@ -21,6 +21,14 @@ define(['app'],function(App)
 			}
 		};
 	});
+
+	App.register.directive("friendreqDetails", function() {
+		return {
+			restrict: "E",
+			templateUrl: "../../../partials/private/snippets/chat/friend_req_details.html"
+		}
+	});
+
     App.register.directive("rotateImage",function()
     {	
 		return {

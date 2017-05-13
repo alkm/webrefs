@@ -1,20 +1,29 @@
-define(['app', 'ngload!userinfo-service', 'ngload!chat-controller', 'ngload!changeprofilepicmodal-controller', 'ngload!search-controller', 'ngload!search-service', 'ngload!utility-service', 'ngload!resource-filter'], function (app) {
-    app.register.controller('HomeController', ['$rootScope', '$scope', '$window', '$state', '$uibModal', 'FBInfoService', 'SetDimension', 'CheckLocalInfo', function ($rootScope, $scope, $window, $state, $uibModal, FBInfoService, SetDimension, CheckLocalInfo)
+define(['app', 'ngload!userinfo-service', 'ngload!chat-controller', 'ngload!changeprofilepicmodal-controller', 'ngload!search-controller', 'ngload!search-service', 'ngload!utility-service', 'ngload!resource-filter', 'ngload!friend-service', 'ngload!notification-controller'], function (app) {
+    app.register.controller('HomeController', ['$rootScope', '$scope', '$window', '$state', '$uibModal', 'FBInfoService', 'SetDimension', 'CheckLocalInfo', 'SetFriendOperation', function ($rootScope, $scope, $window, $state, $uibModal, FBInfoService, SetDimension, CheckLocalInfo, SetFriendOperation)
 	{
+		$rootScope.isNotificationShow = false;
+		$rootScope.isFriendRequestPanelShow = false;
+		$rootScope.notificationCount = 0;
 		if(!CheckLocalInfo.checkGeneralDataSet()){
 			$rootScope.$emit('ON_LOGOUT', { obj: "" });
 		}
-		var defaultProfilePic = "../images/defaultimages/profileimages/defaultprofilepic.jpg";
+		var defaultProfilePic = "assets/images/defaultprofilepic.jpg";
+		$scope.userid = undefined;
 		if(localStorage && localStorage.getItem("generalDataSet")){
-			var generalDataSet = localStorage.getItem("generalDataSet")
-			$scope.name = JSON.parse(generalDataSet).name;
-			$scope.email = JSON.parse(generalDataSet).email;
-			var profilePic = JSON.parse(generalDataSet).profilePic;
-			$rootScope.profilePic = (profilePic == undefined) ? defaultProfilePic : profilePic;
-			$rootScope.profilePicHeight = setDimension("height", profilePic.profilePicDimension);
-			$rootScope.profilePicWidth = setDimension("width", profilePic.profilePicDimension);
-			$rootScope.previewPicHeight = setDimension("height", profilePic.previewPicDimension);
-			$rootScope.previewPicWidth = setDimension("width", profilePic.previewPicDimension);
+			try{
+				var generalDataSet = localStorage.getItem("generalDataSet");
+				$scope.name = JSON.parse(generalDataSet).fullname;
+				$scope.userId = JSON.parse(generalDataSet)._id;
+				var profilePic = JSON.parse(generalDataSet).profilepic.imageBuffer;
+				$rootScope.profilePic = (profilePic === "") ? defaultProfilePic : profilePic;
+				$rootScope.profilePicHeight = setDimension("height", JSON.parse(generalDataSet).profilepic.profilePicDimension);
+				$rootScope.profilePicWidth = setDimension("width", JSON.parse(generalDataSet).profilepic.profilePicDimension);
+				$rootScope.previewPicHeight = setDimension("height", JSON.parse(generalDataSet).profilepic.previewPicDimension);
+				$rootScope.previewPicWidth = setDimension("width", JSON.parse(generalDataSet).profilepic.previewPicDimension);
+
+			}catch(err){
+				console.log(err);
+			}
 		}
 		
 		function setDimension(prop, val){
@@ -29,7 +38,7 @@ define(['app', 'ngload!userinfo-service', 'ngload!chat-controller', 'ngload!chan
 		}
 		
 		$scope.onProfileClick = function(){
-			$state.transitionTo("Profile",{profileid: $scope.email});
+			$state.transitionTo("Profile",{profileid: $scope.userId});
 		}
 		$scope.onSearchRequest = function(){
 
@@ -77,6 +86,7 @@ define(['app', 'ngload!userinfo-service', 'ngload!chat-controller', 'ngload!chan
 		 */
 		// event.preventDefault();
 	  // })
+
 		
 	}]);
 	

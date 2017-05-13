@@ -1,4 +1,4 @@
-define(['app', 'ngload!imgcrop-directive', 'ngload!profilepic-service', 'ngload!utility-service'], function (app) {
+define(['app', 'ngload!imgcrop-directive', 'ngload!profile-service', 'ngload!utility-service'], function (app) {
     app.register.controller('ChangeProfilePicModalController', ['$rootScope', '$scope', '$window', '$state', '$timeout' , '$uibModalInstance', 'ProfilePicUpload', 'CheckLocalInfo', function ($rootScope, $scope, $window, $state, $timeout, $uibModalInstance, ProfilePicUpload, CheckLocalInfo)
 	{
 		$scope.isFINShow = false;
@@ -45,15 +45,15 @@ define(['app', 'ngload!imgcrop-directive', 'ngload!profilepic-service', 'ngload!
 			var generalDataSet = JSON.parse(localStorage.getItem("generalDataSet"));
 			var profilePicInfo = {};
 			profilePicInfo.profilePicEncoded = imgData;
-			profilePicInfo.id = generalDataSet.id;
+			profilePicInfo.id = generalDataSet._id;
 			profilePicInfo.previewPicDimension = $rootScope.previewPicWidth+"x"+$rootScope.previewPicHeight;
 			profilePicInfo.profilePicDimension = $rootScope.profilePicWidth+"x"+$rootScope.profilePicHeight;
 			ProfilePicUpload.create({"profilepicinfo": profilePicInfo})
 				.success(function(data) {
 				$scope.loading = false;
 				if(data.status == "success"){
-					$rootScope.profilePic = data.profilepic;
-					CheckLocalInfo.updateGeneralDataSet("generalDataSet", "profilePic", $rootScope.profilePic);
+					$rootScope.profilePic = data.profilepic.imageBuffer;
+					CheckLocalInfo.updateGeneralDataSet("generalDataSet", "profilepic", data.profilepic);
 				}
 				else{
 				}

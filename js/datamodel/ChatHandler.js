@@ -1,6 +1,6 @@
-var friendRelationInfo = require('./datamodel/FriendsRelationship');
-var userInfo = require('./datamodel/UserInfo');
-var chatInfo = require('./datamodel/ChatInfo');
+var friendRelationInfo = require('./model/friendsrelationship');
+var userInfo = require('./model/userinfo');
+var chatInfo = require('./model/chatinfo');
 var socketio = require('socket.io');
 var events = require('events');
 var util = require('util');
@@ -15,23 +15,32 @@ var chatBuddiesConnected = [];
 
   io.sockets.on('connection', function(socket){//Similar to document.ready when the socket initialized
 	socket.on('ON_SOCKET_INIT', function(data){
-		socket.userid = data.userid;
-		handleActiveUsers(socket, data.userid);
+		console.log('>>>>wow......'+data._id);
+		socket.userid = data._id;
+		handleActiveUsers(socket, data._id);
 		//Set user appearance status in db
-		userInfo.update({_id : data.userid}, { $set: {appearance: "online"}}, function(error, docs){
+		userInfo.update({_id : data._id}, { $set: {appearance: "online"}}, function(error, docs){
 			if(error){
 				console.log("Error"+error);
 			}else{
 				io.sockets.emit("UPDATE_CHAT_LIST", "");
+				console.log('update chat List');
 			}
 		});
 	})
+
 	socket.on('ON_SEND_MSG', function(data){
 	//Emitting the info back to client 
-		console.log("sender"+data.senderInfo._id);
-		console.log("receiver"+data.receiverInfo._id);
+		//console.log("sender......."+JSON.parse(data.senderInfo).userid);
+		//console.log("receiver......."+data.receiverInfo.username);
 		//io.sockets.emit("ON_NEW_MSG", data);//To all users connected in socket
-		usedSockets[data.receiverInfo._id].emit("ON_NEW_MSG", data);//To specific user to whom message is sent
+		//console.log('>>>>>>///????'+JSON.parse(usedSockets[data.receiverInfo.username]));
+		var receiverSocket = usedSockets[data.receiverInfo._id];
+		try{
+			receiverSocket.emit("ON_NEW_MSG", data);//To specific user to whom message is sent
+		}catch(err){
+			console.log('socket error hapened');
+		}
 	});
 	
 	socket.on('ON_SEND_VIDEO_CHAT_REQUEST', function(data){
@@ -48,6 +57,7 @@ var chatBuddiesConnected = [];
 	
 	socket.on('ON_REJECT_VIDEO_CHAT_REQUEST', function(data){
 		//Emitting the info back to client 
+		console.log('Abhijit strted video request');
 		usedSockets[data.receiverVideoInfo._id].emit("ON_REQUESTED_VIDEO_CHAT_REJECTION", data);//To specific user to whom video chat request is sent
 	});
 	
@@ -76,7 +86,7 @@ var chatBuddiesConnected = [];
 		chatBuddiesConnected.push(userid);
 		chatClients[socket.id] = userid;
 		usedSockets[userid] = socket;
-		console.log(chatClients);
+		console.log('_________+++++++======='+JSON.stringify(chatClients));
 	}
 	
 	function handleClientDisconnected(socket, userid){
@@ -89,13 +99,12 @@ var chatBuddiesConnected = [];
 		} 
 		
 		delete usedSockets[userid];
-				for(var i in chatClients){
+		for(var i in chatClients){
 			console.log(i);
 		}
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>");
 
 		delete chatClients[socket.id];
-				for(var i in chatClients){
+		for(var i in chatClients){
 			console.log(i);
 		}
 		console.log(chatBuddiesConnected);
@@ -126,6 +135,7 @@ module.exports = function(app) {
 	app.post('/api/getChatBuddyList/', function(req, res) {	
 		// Confirm friend and changing the status
 		// Getting all the confirmed friends
+		console.log('>>?????>>>>'+req.body.userid);
 		friendRelationInfo.find({requeststatus : "confirmed", $or: [ { userid: req.body.userid }, { friendid: req.body.userid }]}, function(error, infos){
 			if(error){
 				console.log("Error"+error);
@@ -138,6 +148,7 @@ module.exports = function(app) {
 	
 	app.post('/api/getAllOnLineFriendsDetails/', function(req, res) {	
 		// Getting all the online friends
+		console.log('req.body.reqidarr>>>'+req.body.reqidarr);
 		userInfo.find({_id: {$in : req.body.reqidarr}, appearance: "online"}, function(error, infos){
 			if(error){
 				console.log("Error"+error);

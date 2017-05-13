@@ -30,5 +30,14 @@ define(['app'], function (app) {
             }
         }
 	}]);
+
+    app.register.factory('ProfileInfoService', ['$http', function ($http)
+    {
+        return {
+            get : function(profileInfo) {
+                return $http.post('/api/getProfileDataSet', profileInfo);
+            }
+        }
+    }]);
         
 });
